@@ -45,14 +45,20 @@
   // short numbers
   short.addFilter(/^\d+(?:\.\d+)?$/, (function() {
     var units = [
-          { suffix: "k", factor: 10e3 },
-          { suffix: "M", factor: 10e6 },
-          { suffix: "G", factor: 10e9 },
-          { suffix: "T", factor: 10e12 },
-          { suffix: "P", factor: 10e15 },
+          { suffix: "P", factor: 1e15 },
+          { suffix: "T", factor: 1e12 },
+          { suffix: "G", factor: 1e9 },
+          { suffix: "M", factor: 1e6 },
+          { suffix: "k", factor: 1e3 },
         ],
 
         unitsLen = units.length;
+
+    for (var i=0; i<unitsLen; i++) {
+      // if a number is higher than this number, we use this prefix. For 'k',
+      // it's 600 (0.6k), for 'M' it's 600'000, etc.
+      units[i].threshold = units[i].factor/10 * 6;
+    }
 
     function roundOneDecimal( n ) {
       return (0|(n * 10)) / 10;
@@ -69,10 +75,12 @@
       for (var i=0; i<unitsLen; i++) {
         unit = units[i];
 
-        if (n > (unit.factor/10 * 6)) {
+        if (n > unit.threshold) {
           return "" + roundOneDecimal(n/unit.factor) + unit.suffix;
         }
       }
+
+      return "" + roundOneDecimal(n);
     };
   })());
 
