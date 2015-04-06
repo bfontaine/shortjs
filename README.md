@@ -1,6 +1,6 @@
 # Short.js
 
-**Short.js** is a small library that shorten text in JS, and that’s all. It
+**Short.js** is a small library that shortens text in JS, and that’s all. It
 currently only support numbers.
 
 ## Usage
