@@ -1,3 +1,4 @@
+/**! github.com/bfontaine/shortjs -- MIT license */
 (function( root, factory ) {
 
   if (typeof define == 'function' && define.amd) {
