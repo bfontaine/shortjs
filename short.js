@@ -79,17 +79,17 @@
         unit = units[i];
 
         if (n > unit.threshold) {
-          return "" + roundOneDecimal(n/unit.factor) + unit.suffix;
+          n = roundOneDecimal(n/unit.factor);
+
+          if (n%1 === 0 && opts.forcePoint) {
+              n = "" + n + ".0";
+          }
+
+          return "" + n + unit.suffix;
         }
       }
 
-      n = roundOneDecimal(n);
-
-      if (n%1 === 0 && opts.forcePoint) {
-          return "" + n + ".0";
-      }
-
-      return "" + n;
+      return "" + roundOneDecimal(n);
     };
   })());
 
