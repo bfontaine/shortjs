@@ -14,24 +14,26 @@
 
   var filters = [];
 
-  var short = function short(text) {
-    return short.filter( text );
+  var short = function short( text, opts ) {
+    return short.filter( text, opts );
   };
 
   short.addFilter = function addFilter( pattern, fn ) {
     filters.push([pattern, fn]);
   };
 
-  short.filter = function filter( text ) {
+  short.filter = function filter( text, opts ) {
     var len = filters.length,
         i = 0,
         f, res;
+
+    opts = opts || {};
 
     for (; i<len; i++) {
       f = filters[i];
 
       if (f[0].test(text)) {
-        res = f[1](text);
+        res = f[1](text, opts);
         if (res !== false) {
           text = res;
         }
@@ -65,7 +67,7 @@
       return (0|(n * 10)) / 10;
     }
 
-    return function( text ) {
+    return function( text, opts ) {
       var n = +text,
           unit;
 
@@ -81,7 +83,13 @@
         }
       }
 
-      return "" + roundOneDecimal(n);
+      n = roundOneDecimal(n);
+
+      if (n%1 === 0 && opts.forcePoint) {
+          return "" + n + ".0";
+      }
+
+      return "" + n;
     };
   })());
 
