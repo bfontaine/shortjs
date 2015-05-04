@@ -57,12 +57,6 @@
 
         unitsLen = units.length;
 
-    for (var i=0; i<unitsLen; i++) {
-      // if a number is higher than this number, we use this prefix. For 'k',
-      // it's 600 (0.6k), for 'M' it's 600'000, etc.
-      units[i].threshold = units[i].factor/10 * 6;
-    }
-
     function roundOneDecimal( n ) {
       return (0|(n * 10)) / 10;
     }
@@ -78,7 +72,7 @@
       for (var i=0; i<unitsLen; i++) {
         unit = units[i];
 
-        if (n > unit.threshold) {
+        if (n >= unit.factor) {
           n = roundOneDecimal(n/unit.factor);
 
           if (n%1 === 0 && opts.forcePoint) {
